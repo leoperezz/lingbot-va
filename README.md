@@ -90,7 +90,7 @@ bash evaluation/robotwin/launch_server_multigpus.sh
 # single GPU
 task_name="adjust_bottle";
 save_root="results/";
-bash evaluation/robotwin/launch_client.sh ${task_name} ${save_root}
+bash evaluation/robotwin/launch_client.sh ${save_root} ${task_name}
 
 # multi-GPU
 save_root="results/"
