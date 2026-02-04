@@ -54,10 +54,23 @@ https://github.com/user-attachments/assets/cec7b7a6-953b-4fa4-8f1a-47efc1fce547
  • CUDA 12.6
 
 ```bash
+# 1. Install PyTorch first
 pip install torch==2.9.0 torchvision==0.24.0 torchaudio==2.9.0 --index-url https://download.pytorch.org/whl/cu126
+
+# 2. Install other dependencies
 pip install websockets einops diffusers==0.36.0 transformers==5.0.0 accelerate msgpack opencv-python matplotlib ftfy easydict
+
+# 3. Install build dependencies for flash-attn
+pip install psutil packaging ninja
+
+# 4. Install flash-attn (requires PyTorch and build dependencies to be installed first)
 pip install flash-attn --no-build-isolation
+
+# 5. Install the LingBot-VA package in editable mode
+pip install -e .
 ```
+
+**Note:** `flash-attn` must be installed after PyTorch because it needs to compile against the installed PyTorch version. The `--no-build-isolation` flag allows it to use the PyTorch already in your environment. Build dependencies like `psutil`, `packaging`, and `ninja` are required for the compilation process.
 
 
 ## Deploying LingBot-VA for Inference
