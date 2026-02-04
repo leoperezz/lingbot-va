@@ -48,29 +48,53 @@ https://github.com/user-attachments/assets/cec7b7a6-953b-4fa4-8f1a-47efc1fce547
 # 🛠️ Quick Start
 
 ## Installation
+
 **Requirements**
- • Python == 3.10.16
- • Pytorch == 2.9.0
- • CUDA 12.6
+ • Python >= 3.10, < 3.12
+ • PyTorch >= 2.0.0 (compatible with lerobot)
+ • CUDA 12.1+ (tested with CUDA 12.6)
+
+### Option 1: Quick Install (Recommended)
+
+```bash
+# 1. Install PyTorch with CUDA support
+# For CUDA 12.1+, let pip resolve compatible versions
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# 2. Install LingBot-VA with all dependencies
+pip install -e .
+
+# 3. Install optional dependencies
+pip install "lerobot @ git+https://github.com/huggingface/lerobot.git"
+pip install flash-attn --no-build-isolation
+```
+
+### Option 2: Step-by-Step Install (For Compatibility Issues)
 
 ```bash
 # 1. Install PyTorch first
-pip install torch==2.9.0 torchvision==0.24.0 torchaudio==2.9.0 --index-url https://download.pytorch.org/whl/cu126
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# 2. Install other dependencies
-pip install websockets einops diffusers==0.36.0 transformers==5.0.0 accelerate msgpack opencv-python matplotlib ftfy easydict
+# 2. Install base dependencies
+pip install diffusers transformers tokenizers numpy einops tqdm imageio pillow \
+    accelerate websockets msgpack opencv-python matplotlib easydict ftfy \
+    psutil packaging pyyaml omegaconf huggingface-hub
 
-# 3. Install build dependencies for flash-attn
-pip install psutil packaging ninja
+# 3. Install lerobot
+pip install "lerobot @ git+https://github.com/huggingface/lerobot.git"
 
-# 4. Install flash-attn (requires PyTorch and build dependencies to be installed first)
+# 4. Install LingBot-VA in editable mode (without dependencies to avoid conflicts)
+pip install -e . --no-deps
+
+# 5. Install flash-attn (optional, for better performance)
 pip install flash-attn --no-build-isolation
-
-# 5. Install the LingBot-VA package in editable mode
-pip install -e .
 ```
 
-**Note:** `flash-attn` must be installed after PyTorch because it needs to compile against the installed PyTorch version. The `--no-build-isolation` flag allows it to use the PyTorch already in your environment. Build dependencies like `psutil`, `packaging`, and `ninja` are required for the compilation process.
+**Notes:**
+- All dependencies are defined in `pyproject.toml` with flexible version constraints compatible with lerobot
+- `flash-attn` is optional but recommended for better performance
+- The `--no-build-isolation` flag allows flash-attn to use your installed PyTorch version
+- If using CUDA 12.6, replace `cu121` with `cu126` in the torch installation command
 
 
 ## Deploying LingBot-VA for Inference
